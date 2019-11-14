@@ -997,7 +997,9 @@ namespace log4net.Util
 		/// </remarks>
 		public static string GetAppSetting(string key)
 		{
-			try
+            throw new System.NotSupportedException("p8 not support  Win AppSettings");
+
+           /* try
 			{
 #if NETCF || NETSTANDARD1_3
 				// Configuration APIs are not suported under the Compact Framework
@@ -1012,7 +1014,7 @@ namespace log4net.Util
 				// If an exception is thrown here then it looks like the config file does not parse correctly.
 				LogLog.Error(declaringType, "Exception while reading ConfigurationSettings. Check your .config file is well formed XML.", ex);
 			}
-			return null;
+			return null;*/
 		}
 
 		/// <summary>

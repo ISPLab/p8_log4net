@@ -63,7 +63,9 @@ namespace log4net.Util.PatternStringConverters
         {
             get
             {
-                if (_appSettingsHashTable == null)
+                throw new System.NotSupportedException("p8 not support  Win AppSettings");
+
+              /*  if (_appSettingsHashTable == null)
                 {
                     Hashtable h = new Hashtable();
                     foreach(string key in System.Configuration.ConfigurationManager.AppSettings)
@@ -72,7 +74,7 @@ namespace log4net.Util.PatternStringConverters
                     }
                     _appSettingsHashTable = h;
                 }
-                return _appSettingsHashTable;
+                return _appSettingsHashTable;*/
             }
 
         }
@@ -96,8 +98,9 @@ namespace log4net.Util.PatternStringConverters
         /// </remarks>
         override protected void Convert(TextWriter writer, object state)
         {
+            throw new System.NotSupportedException("p8 not support  Win AppSettings");
 
-            if (Option != null)
+          /*  if (Option != null)
             {
                 // Write the value for the specified key
                 WriteObject(writer, null, System.Configuration.ConfigurationManager.AppSettings[Option]);
@@ -106,7 +109,7 @@ namespace log4net.Util.PatternStringConverters
             {
                 // Write all the key value pairs
                 WriteDictionary(writer, null, AppSettingsDictionary);
-            }
+            }*/
         }
     }
 }

@@ -109,7 +109,9 @@ namespace log4net.Config
 
 	    static private void InternalConfigure(ILoggerRepository repository) 
 		{
-			LogLog.Debug(declaringType, "configuring repository [" + repository.Name + "] using .config file section");
+            throw new System.NotSupportedException("p8 not support  Win AppSettings");
+
+           /* LogLog.Debug(declaringType, "configuring repository [" + repository.Name + "] using .config file section");
 
 			try
 			{
@@ -129,7 +131,8 @@ namespace log4net.Config
 			{
 				XmlElement configElement = null;
 #if NET_2_0
-				configElement = System.Configuration.ConfigurationManager.GetSection("log4net") as XmlElement;
+               
+            //    configElement = System.Configuration.ConfigurationManager.GetSection("log4net") as XmlElement;
 #else
 				configElement = System.Configuration.ConfigurationSettings.GetConfig("log4net") as XmlElement;
 #endif
@@ -159,6 +162,7 @@ namespace log4net.Config
 				}
 			}
 #endif
+*/
 		}
 
 #if !NETSTANDARD1_3 // Excluded because GetCallingAssembly() is not available in CoreFX (https://github.com/dotnet/corefx/issues/2221).

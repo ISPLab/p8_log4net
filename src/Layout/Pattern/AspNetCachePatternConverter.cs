@@ -53,24 +53,26 @@ namespace log4net.Layout.Pattern
 		/// be written to the output.
 		/// </para>
 		/// </remarks>
-		protected override void Convert(TextWriter writer, LoggingEvent loggingEvent, HttpContext httpContext)
+		protected override void Convert(TextWriter writer, LoggingEvent loggingEvent, object httpContext)
 		{
-			if (HttpRuntime.Cache != null)
-			{
-				if (Option != null)
-				{
-					WriteObject(writer, loggingEvent.Repository, HttpRuntime.Cache[Option]);
-				}
-				else
-				{
-					WriteObject(writer, loggingEvent.Repository, HttpRuntime.Cache.GetEnumerator());
-				}
-			}
-			else
-			{
-				writer.Write(SystemInfo.NotAvailableText);
-			}
-		}
+            throw new System.NotSupportedException("p8 not support  Win HttpContext");
+
+            /*  if (HttpRuntime.Cache != null)
+              {
+                  if (Option != null)
+                  {
+                      WriteObject(writer, loggingEvent.Repository, HttpRuntime.Cache[Option]);
+                  }
+                  else
+                  {
+                      WriteObject(writer, loggingEvent.Repository, HttpRuntime.Cache.GetEnumerator());
+                  }
+              }
+              else
+              {
+                  writer.Write(SystemInfo.NotAvailableText);
+              }*/
+        }
 	}
 }
 

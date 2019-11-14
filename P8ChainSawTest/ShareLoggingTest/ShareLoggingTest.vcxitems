@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{c4fc7062-f9e7-428e-9bd9-c8e3f997dde9}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\log4nettest\log4nettest\app.xaml.cs" />
+    <None Include="$(MSBuildThisFileDirectory)..\log4nettest\log4nettest\logmaster.cs" />
+    <None Include="$(MSBuildThisFileDirectory)..\log4nettest\log4nettest\mainpage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)..\log4nettest\log4nettest\app.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)..\log4nettest\log4nettest\mainpage.xaml" />
+  </ItemGroup>
+</Project>

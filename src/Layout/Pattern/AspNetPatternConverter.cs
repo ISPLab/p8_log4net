@@ -41,14 +41,15 @@ namespace log4net.Layout.Pattern
 	{
 		protected override void Convert(TextWriter writer, LoggingEvent loggingEvent)
 		{
-			if (HttpContext.Current == null)
+            throw new System.NotSupportedException("p8 not support  Win HttpContext");
+            /*if (HttpContext.Current == null)
 			{
 				writer.Write(SystemInfo.NotAvailableText);
 			}
 			else
 			{
 				Convert(writer, loggingEvent, HttpContext.Current);
-			}
+			}*/
 		}
 
 		/// <summary>
@@ -58,7 +59,7 @@ namespace log4net.Layout.Pattern
 		/// <param name="writer"><see cref="TextWriter" /> that will receive the formatted result.</param>
 		/// <param name="loggingEvent">The <see cref="LoggingEvent" /> on which the pattern converter should be executed.</param>
 		/// <param name="httpContext">The <see cref="HttpContext" /> under which the ASP.Net request is running.</param>
-		protected abstract void Convert(TextWriter writer, LoggingEvent loggingEvent, HttpContext httpContext);
+		protected abstract void Convert(TextWriter writer, LoggingEvent loggingEvent, object httpContext);
 	}
 }
 

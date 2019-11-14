@@ -20,7 +20,6 @@
 // SSCLI 1.0 has no support for ADO.NET
 #if !SSCLI
 
-using System;
 using System.Collections;
 using System.Configuration;
 using System.Data;
@@ -29,6 +28,7 @@ using System.IO;
 using log4net.Util;
 using log4net.Layout;
 using log4net.Core;
+using System;
 
 namespace log4net.Appender
 {
@@ -631,7 +631,7 @@ namespace log4net.Appender
 		/// <returns>An <see cref="IDbConnection"/> instance with a valid connection string.</returns>
 		virtual protected IDbConnection CreateConnection(Type connectionType, string connectionString)
 		{
-			IDbConnection connection = (IDbConnection)Activator.CreateInstance(connectionType);
+         	IDbConnection connection = (IDbConnection)Activator.CreateInstance(connectionType);
 			connection.ConnectionString = connectionString;
 			return connection;
 		}
@@ -656,7 +656,9 @@ namespace log4net.Appender
 #if NET_2_0
 			if (!String.IsNullOrEmpty(ConnectionStringName))
 			{
-				ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings[ConnectionStringName];
+                throw new System.NotSupportedException("p8 not support  Win ConnectionStringSettings");
+
+               /* ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings[ConnectionStringName];
 				if (settings != null)
 				{
 					connectionStringContext = "ConnectionStringName";
@@ -665,7 +667,7 @@ namespace log4net.Appender
 				else
 				{
 					throw new LogException("Unable to find [" + ConnectionStringName + "] ConfigurationManager.ConnectionStrings item");
-				}
+				}*/
 			}
 #endif
 

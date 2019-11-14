@@ -53,9 +53,11 @@ namespace log4net.Layout.Pattern
 		/// be written to the output.
 		/// </para>
 		/// </remarks>
-		protected override void Convert(TextWriter writer, LoggingEvent loggingEvent, HttpContext httpContext)
+		protected override void Convert(TextWriter writer, LoggingEvent loggingEvent, object httpContext)
 		{
-			if (httpContext.Session != null)
+            throw new System.NotSupportedException("p8 not support  Win HttpContext");
+
+           /* if (httpContext.Session != null)
 			{
 				if (Option != null)
 				{
@@ -69,7 +71,7 @@ namespace log4net.Layout.Pattern
 			else
 			{
 				writer.Write(SystemInfo.NotAvailableText);
-			}
+			}*/
 		}
 	}
 }

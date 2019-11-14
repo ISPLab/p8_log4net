@@ -86,8 +86,10 @@ namespace log4net.Appender
 		/// </remarks>
 		override protected void Append(LoggingEvent loggingEvent) 
 		{
-			// check if log4net is running in the context of an ASP.NET application
-			if (HttpContext.Current != null) 
+            throw new System.NotSupportedException("p8 not support  Win HttpContext");
+            // check if log4net is running in the context of an ASP.NET application
+            /*
+            if (HttpContext.Current != null) 
 			{
 				// check if tracing is enabled for the current context
 				if (HttpContext.Current.Trace.IsEnabled) 
@@ -101,7 +103,7 @@ namespace log4net.Appender
                         HttpContext.Current.Trace.Write(m_category.Format(loggingEvent), RenderLoggingEvent(loggingEvent));
 					}
 				}
-			}
+			}*/
 		}
 
 		/// <summary>
