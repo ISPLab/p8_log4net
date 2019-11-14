@@ -141,13 +141,13 @@ namespace Log4netTest
                 rollingFileAppender.Name = "roller_appender";
                 rollingFileAppender.Threshold = level;
                 rollingFileAppender.RollingStyle = RollingFileAppender.RollingMode.Date;
-                //   rollingFileAppender.MaxFileSize = (int)ByteSizeLib.ByteSize.Parse("10MB").Bits;  //default
-                //   rollingFileAppender.MaxSizeRollBackups = (int)ByteSizeLib.ByteSize.Parse("1GB").Bits; 
+             //   rollingFileAppender.MaxFileSize = (int)ByteSizeLib.ByteSize.Parse("10MB").Bits;  //default
+             //   rollingFileAppender.MaxSizeRollBackups = (int)ByteSizeLib.ByteSize.Parse("1GB").Bits; 
                 rollingFileAppender.CountDirection = 0;
                 rollingFileAppender.AppendToFile = true;
                 rollingFileAppender.LockingModel = new FileAppender.MinimalLock();
                 rollingFileAppender.StaticLogFileName = true;
-                rollingFileAppender.RollingStyle = RollingFileAppender.RollingMode.Date;
+          
                 rollingFileAppender.DatePattern = ".yyyy-MM-dd'.log'";
                 rollingFileAppender.Layout = layout;
                 rollingFileAppender.File =  Path.Combine(GetAndroidCommonPath(), "log.xml");

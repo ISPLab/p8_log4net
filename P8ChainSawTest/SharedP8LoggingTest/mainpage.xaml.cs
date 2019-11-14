@@ -32,7 +32,7 @@ namespace Log4netTest
             {
                 Text = "Send Udp simple packet"
             };
-            b_upd_simple_message.Clicked += SendUdpPacket;
+            b_upd_simple_message.Clicked += AddLogMes;
             main_stack.Children.Add(b_upd_simple_message);
 
             Button b_upd_simple_message_on = new Button
@@ -54,6 +54,13 @@ namespace Log4netTest
                 Text = "Show all base path files"
             };
             ShowAllBasePahFiles.Clicked += (e, ev) => { CheckFileAppender(); };
+            main_stack.Children.Add(ShowAllBasePahFiles);
+
+            Button b_startinifinity  = new Button
+            {
+                Text = "Start/Stop Infinity logging"
+            };
+            ShowAllBasePahFiles.Clicked += AddInfinityMesWhile;
             main_stack.Children.Add(ShowAllBasePahFiles);
             this.Content = main_stack;
         }
@@ -77,6 +84,50 @@ namespace Log4netTest
                 }
             });
         }
+        bool stop = false;
+        public void AddInfinityMesWhile(Object sender, EventArgs ev)
+        {
+            stop = !stop;
+            Task.Run(() =>
+            {
+                try
+                {
+                    while(stop)
+                    {
+                        var l_t = AppacheLogMaster.Instance.GetLogger("test1");
+                        var l_t2 = AppacheLogMaster.Instance.GetLogger("test2");
+                        l_t.Info("test1_logger_message1");
+                        l_t2.Error("test2_logger_message1");
+                        System.Threading.Thread.Sleep(2000);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Android.Util.Log.Error("p8tag", ex.ToString());
+                }
+            });
+        }
+        public byte[] LoadFile(string fileName)
+        {
+            byte[] fileData = null;
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+
+                try
+                {
+                    int fileSize = (int)fs.Length;
+                    fileData = new byte[fileSize];
+                    int readed = fs.Read(fileData, 0, fileSize);
+                    if (readed != fileSize) throw new Exception("Ошибка чтения файла " + fileName);
+                }
+                catch (Exception ex)
+                {
+                   // Logger.FatalExeception(String.Format("Exception:  {0}", ex.Message), ex);
+                }
+            }
+            return fileData;
+        }
+
 
         public void CheckFileAppender()
         {
@@ -85,6 +136,8 @@ namespace Log4netTest
             foreach(var f in fs)
             {
                 AppacheLogMaster.Instance.GetLogger("f_result").Info(Path.GetFileName(f));
+                var resn = LoadFile( Path.Combine(dir,Path.GetFileName(f)));
+                string converted = Encoding.UTF8.GetString(resn, 0, resn.Length);
             }
         }
 
@@ -92,7 +145,7 @@ namespace Log4netTest
 
 
         int count_message = 0;
-        public void SendUdpPacket(object sender, EventArgs ev)
+        public void AddLogMes(object sender, EventArgs ev)
         {
             var ipAddress = "127.0.0.1";
             var ip = System.Net.IPAddress.Parse(ipAddress);
