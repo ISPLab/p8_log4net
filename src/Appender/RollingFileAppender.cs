@@ -1159,11 +1159,13 @@ namespace log4net.Appender
 			}
 
 #if !NETCF
-			// initialize the mutex that is used to lock rolling
-			m_mutexForRolling = new Mutex(false, m_baseFileName.Replace("\\", "_").Replace(":", "_").Replace("/", "_"));
+            // initialize the mutex that is used to lock rolling
+            //p8fix
+            //m_mutexForRolling = new Mutex(false, m_baseFileName.Replace("\\", "_").Replace(":", "_").Replace("/", "_").Replace("/","_"));
+            m_mutexForRolling = new Mutex(false);
 #endif
 
-			if (m_rollDate && File != null && m_scheduledFilename == null)
+            if (m_rollDate && File != null && m_scheduledFilename == null)
 			{
                 m_scheduledFilename = CombinePath(File, m_now.ToString(m_datePattern, System.Globalization.DateTimeFormatInfo.InvariantInfo));
 			}

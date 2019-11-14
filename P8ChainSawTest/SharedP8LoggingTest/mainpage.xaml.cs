@@ -4,6 +4,7 @@ using log4net.Repository.Hierarchy;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,49 +17,80 @@ namespace Log4netTest
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        static bool SetedDefaultConfig = false;
-        public static bool LogCofigureted;
-        static Logger _root;
         public MainPage()
         {
+            AppacheLogMaster appacheLogMaster = AppacheLogMaster.Instance;
+            StackLayout main_stack = new StackLayout();
             // InitializeComponent();
             Button b_udp_chainsaw = new Button {
                 Text = "Send Udp Chainsaw Packet"
             };
-            b_udp_chainsaw.Clicked += SendUdpChainsowPack;
+            b_udp_chainsaw.Clicked += SendUdpChainsawPack;
+            main_stack.Children.Add(b_udp_chainsaw);
 
             Button b_upd_simple_message = new Button
             {
                 Text = "Send Udp simple packet"
             };
             b_upd_simple_message.Clicked += SendUdpPacket;
-            StackLayout main_stack = new StackLayout();
             main_stack.Children.Add(b_upd_simple_message);
-            main_stack.Children.Add(b_udp_chainsaw);
+
+            Button b_upd_simple_message_on = new Button
+            {
+                Text = "Turn off UDP Logging"
+            };
+            b_upd_simple_message_on.Clicked += (e, ev) => { AppacheLogMaster.Instance.TurnOffUdpLayout(); };
+            main_stack.Children.Add(b_upd_simple_message_on);
+
+            Button b_upd_simple_message_off = new Button
+            {
+                Text = "Turn on UDP Logging"
+            };
+            b_upd_simple_message_off.Clicked += (e, ev) => { AppacheLogMaster.Instance.AddDefaultUdpLayout(); };
+            main_stack.Children.Add(b_upd_simple_message_off);
+
+            Button ShowAllBasePahFiles = new Button
+            {
+                Text = "Show all base path files"
+            };
+            ShowAllBasePahFiles.Clicked += (e, ev) => { CheckFileAppender(); };
+            main_stack.Children.Add(ShowAllBasePahFiles);
             this.Content = main_stack;
-            InitializeApacheLogger(true, udpsupport: true);
         }
 
-    
+        
 
-        public void SendUdpChainsowPack(Object sender, EventArgs ev)
+        public void SendUdpChainsawPack(Object sender, EventArgs ev)
         {
             Task.Run(() =>
             {
                 try
                 {
-                    _root.Log(Level.Debug, "test_udp_logger", null);
-
-                    /* hierarchy.Root.Log(level: log4net.Core.Level.Info, "root_message", null);
-                     var logger = GetLogger("test_udp_logger");
-                     logger.Warn("Warn test message");*/
+                    var l_t = AppacheLogMaster.Instance.GetLogger("test1");
+                    var l_t2 = AppacheLogMaster.Instance.GetLogger("test2");
+                    l_t.Info("test1_logger_message1");
+                    l_t2.Error("test2_logger_message1");
                 }
                 catch (Exception ex)
                 {
-
+                    Android.Util.Log.Error("p8tag", ex.ToString());
                 }
             });
         }
+
+        public void CheckFileAppender()
+        {
+            var dir = AppacheLogMaster.GetAndroidCommonPath();
+            var fs = Directory.GetFiles(dir);
+            foreach(var f in fs)
+            {
+                AppacheLogMaster.Instance.GetLogger("f_result").Info(Path.GetFileName(f));
+            }
+        }
+
+     
+
+
         int count_message = 0;
         public void SendUdpPacket(object sender, EventArgs ev)
         {
@@ -72,7 +104,7 @@ namespace Log4netTest
             Console.WriteLine($"{count_message} message is sent");
         }
 
-        public static ILog GetLogger(string name = "")
+      /*  public static ILog GetLogger(string name = "")
         {
 
             if (string.IsNullOrEmpty(name))
@@ -86,9 +118,9 @@ namespace Log4netTest
             rep.GetLogger("default");
             var Logger = log4net.LogManager.GetLogger(rep.Name, name);
             return Logger;
-        }
+        }*/
 
-        public static void InitializeApacheLogger(bool consolesupport = true, bool udpsupport = true)
+    /*    public static void InitializeApacheLogger(bool consolesupport = true, bool udpsupport = true)
         {
             //  if (!SetedDefaultConfig)
             //      SetRepDefaultConfig();
@@ -98,9 +130,9 @@ namespace Log4netTest
                 SetUdpLogging(true);
 
             LogCofigureted = true;
-        }
-        static Hierarchy hierarchy;
-        private static void SetRepDefaultConfig()
+        }*/
+        //static Hierarchy hierarchy;
+    /*    private static void SetRepDefaultConfig()
         {
             var repository = LogManager.CreateRepository("default");
             //  log4net.Config.XmlConfigurator.Configure(repository);
@@ -113,9 +145,9 @@ namespace Log4netTest
             hierarchy.Root.AddAppender(rol_appender);
 
             SetedDefaultConfig = true;
-        }
+        }*/
 
-        private static void SetUdpLogging(bool state = true, int? localport = null, int? remoteport = null, string remote_address = null)
+    /*    private static void SetUdpLogging(bool state = true, int? localport = null, int? remoteport = null, string remote_address = null)
         {
 
              _root = ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root;
@@ -133,7 +165,6 @@ namespace Log4netTest
                 return;
             }*/
           //  hierarchy.Root.AddAppender(udp_appender);
-        }
-
+       // }*/
     }
 }

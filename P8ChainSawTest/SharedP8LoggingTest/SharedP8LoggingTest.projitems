@@ -22,7 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)app.xaml.cs">
       <DependentUpon>app.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)logmaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppacheLogMaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)mainpage.xaml.cs">
       <DependentUpon>mainpage.xaml</DependentUpon>
     </Compile>

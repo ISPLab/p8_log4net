@@ -997,7 +997,8 @@ namespace log4net.Util
 		/// </remarks>
 		public static string GetAppSetting(string key)
 		{
-            throw new System.NotSupportedException("p8 not support  Win AppSettings");
+            return "p8 not support  Win AppSettings";
+          //  throw new System.NotSupportedException("p8 not support  Win AppSettings");
 
            /* try
 			{
