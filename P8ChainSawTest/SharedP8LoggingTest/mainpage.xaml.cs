@@ -22,11 +22,15 @@ namespace Log4netTest
             AppacheLogMaster appacheLogMaster = AppacheLogMaster.Instance;
             StackLayout main_stack = new StackLayout();
             // InitializeComponent();
-            Button b_udp_chainsaw = new Button {
-                Text = "Send Udp Chainsaw Packet"
+
+
+            Button b_startinifinity = new Button
+            {
+                Text = "Start/Stop Infinity logging"
             };
-            b_udp_chainsaw.Clicked += SendUdpChainsawPack;
-            main_stack.Children.Add(b_udp_chainsaw);
+            b_startinifinity.Clicked += AddInfinityMesWhile;
+            main_stack.Children.Add(b_startinifinity);
+
 
             Button b_upd_simple_message = new Button
             {
@@ -35,6 +39,14 @@ namespace Log4netTest
             b_upd_simple_message.Clicked += AddLogMes;
             main_stack.Children.Add(b_upd_simple_message);
 
+
+            Button b_udp_chainsaw = new Button
+            {
+                Text = "Turn on  UDP Logging to port 4445"
+            };
+            b_udp_chainsaw.Clicked += (s,ev) => AppacheLogMaster.Instance.AddDefaultUdpLayout(); 
+            main_stack.Children.Add(b_udp_chainsaw);
+
             Button b_upd_simple_message_on = new Button
             {
                 Text = "Turn off UDP Logging"
@@ -42,48 +54,23 @@ namespace Log4netTest
             b_upd_simple_message_on.Clicked += (e, ev) => { AppacheLogMaster.Instance.TurnOffUdpLayout(); };
             main_stack.Children.Add(b_upd_simple_message_on);
 
-            Button b_upd_simple_message_off = new Button
+           /* Button b_upd_simple_message_off = new Button
             {
                 Text = "Turn on UDP Logging"
             };
             b_upd_simple_message_off.Clicked += (e, ev) => { AppacheLogMaster.Instance.AddDefaultUdpLayout(); };
-            main_stack.Children.Add(b_upd_simple_message_off);
+            main_stack.Children.Add(b_upd_simple_message_off);*/
 
             Button ShowAllBasePahFiles = new Button
             {
-                Text = "Show all base path files"
+                Text = "Get all logs files"
             };
-            ShowAllBasePahFiles.Clicked += (e, ev) => { CheckFileAppender(); };
-            main_stack.Children.Add(ShowAllBasePahFiles);
-
-            Button b_startinifinity  = new Button
-            {
-                Text = "Start/Stop Infinity logging"
-            };
-            ShowAllBasePahFiles.Clicked += AddInfinityMesWhile;
+            ShowAllBasePahFiles.Clicked += (e, ev) => { GetAllLogFiles(); };
             main_stack.Children.Add(ShowAllBasePahFiles);
             this.Content = main_stack;
         }
 
-        
-
-        public void SendUdpChainsawPack(Object sender, EventArgs ev)
-        {
-            Task.Run(() =>
-            {
-                try
-                {
-                    var l_t = AppacheLogMaster.Instance.GetLogger("test1");
-                    var l_t2 = AppacheLogMaster.Instance.GetLogger("test2");
-                    l_t.Info("test1_logger_message1");
-                    l_t2.Error("test2_logger_message1");
-                }
-                catch (Exception ex)
-                {
-                    Android.Util.Log.Error("p8tag", ex.ToString());
-                }
-            });
-        }
+   
         bool stop = false;
         public void AddInfinityMesWhile(Object sender, EventArgs ev)
         {
@@ -98,7 +85,7 @@ namespace Log4netTest
                         var l_t2 = AppacheLogMaster.Instance.GetLogger("test2");
                         l_t.Info("test1_logger_message1");
                         l_t2.Error("test2_logger_message1");
-                        System.Threading.Thread.Sleep(2000);
+                        System.Threading.Thread.Sleep(1000);
                     }
                 }
                 catch (Exception ex)
@@ -118,7 +105,7 @@ namespace Log4netTest
                     int fileSize = (int)fs.Length;
                     fileData = new byte[fileSize];
                     int readed = fs.Read(fileData, 0, fileSize);
-                    if (readed != fileSize) throw new Exception("Ошибка чтения файла " + fileName);
+                    if (readed != fileSize) throw new Exception("Failed reading file" + fileName);
                 }
                 catch (Exception ex)
                 {
@@ -129,15 +116,25 @@ namespace Log4netTest
         }
 
 
-        public void CheckFileAppender()
+        public void GetAllLogFiles()
         {
-            var dir = AppacheLogMaster.GetAndroidCommonPath();
-            var fs = Directory.GetFiles(dir);
-            foreach(var f in fs)
+            try
             {
-                AppacheLogMaster.Instance.GetLogger("f_result").Info(Path.GetFileName(f));
-                var resn = LoadFile( Path.Combine(dir,Path.GetFileName(f)));
-                string converted = Encoding.UTF8.GetString(resn, 0, resn.Length);
+
+                var dir = AppacheLogMaster.GetAndroidCommonPath();
+                var fs = Directory.GetFiles(dir);
+                var log = AppacheLogMaster.Instance.GetLogger("Result_func");
+                foreach (var f in fs)
+                {
+                    AppacheLogMaster.Instance.GetLogger("f_result").Info(Path.GetFileName(f));
+                    var resn = LoadFile(Path.Combine(dir, Path.GetFileName(f)));
+                    string converted = Encoding.UTF8.GetString(resn, 0, resn.Length);
+                    log.Info($"{Path.GetFileName(f)}: {converted}");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
         }
 

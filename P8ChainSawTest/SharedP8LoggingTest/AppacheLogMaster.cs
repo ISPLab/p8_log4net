@@ -89,6 +89,7 @@ namespace Log4netTest
 
         private void AddUdpLayout(string ip = "", int local_port=0, int remote_port= 0)
         {
+            if (Udp_Logging) return;
              udp_appender = GetUDPAppender(local_port, remote_port, ip);
             _root.AddAppender(udp_appender);
             _root.Repository.Configured = true;
@@ -98,8 +99,11 @@ namespace Log4netTest
         public void TurnOffUdpLayout()
         {
             if (udp_appender == null) return;
-              _root.RemoveAppender(udp_appender);
+            _root.RemoveAppender(udp_appender);
             _root.Repository.Configured = true;
+            var loggers=LogManager.GetCurrentLoggers();
+            foreach (var l in loggers)
+                    l.Logger.Repository.ResetConfiguration();
             Udp_Logging = false;
             udp_appender = null;
         }
