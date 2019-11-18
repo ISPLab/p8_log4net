@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-
+/*
 // MONO 1.0 Beta mcs does not like #if !A && !B && !C syntax
 
 // .NET Compact Framework 1.0 has no support for EventLog
@@ -84,7 +84,7 @@ namespace log4net.Appender
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
 	/// <author>Thomas Voss</author>
-	public class EventLogAppender : AppenderSkeleton
+	public class EventLogAppender //p8fix: AppenderSkeleton
 	{
 		#region Public Instance Constructors
 
@@ -179,7 +179,7 @@ namespace log4net.Appender
 		public string MachineName
 		{
 			get { return m_machineName; }
-			set { /* Currently we do not allow the machine name to be changed */; }
+			set { /* Currently we do not allow the machine name to be changed ; }
 		}
 
 		/// <summary>
@@ -273,7 +273,7 @@ namespace log4net.Appender
 		/// <see cref="ActivateOptions"/> must be called again.
 		/// </para>
 		/// </remarks>
-		override public void ActivateOptions()
+		/*override public void ActivateOptions()
 		{
 			try
 			{
@@ -688,3 +688,4 @@ namespace log4net.Appender
 
 #endif // !SSCLI
 #endif // !NETCF
+	*/

@@ -1,8 +1,9 @@
-﻿using log4net;
+using log4net;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
+using SharedP8LoggingTest;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,14 +13,14 @@ using System.Text;
 
 namespace Log4netTest
 {
-    public  class AppacheLogMaster
+    public  class AppacheLogMaster 
     {
         static Logger _root;
         private static volatile AppacheLogMaster instance;
         private static object syncRoot = new Object();
-        public bool Udp_Logging { get; set; }
-        public bool File_Logging { get; set; }
-        public bool Console_Logging { get; set; }
+        private bool Udp_Logging { get; set; }
+        private bool File_Logging { get; set; }
+        private bool Console_Logging { get; set; }
 
         IAppender udp_appender;
         IAppender console_appender;
@@ -52,35 +53,35 @@ namespace Log4netTest
             Initialize();
             AddRollingAppender();
         }
-          public  log4net.ILog GetLogger(string name="")
-         {
+        public  log4net.ILog GetLogger(string name="")
+        {
+		
             var rep = log4net.LogManager.GetAllRepositories().FirstOrDefault();
             if (String.IsNullOrEmpty(name))
-                return LogManager.GetLogger($"{GetHostName()}_root");
-            return LogManager.GetLogger($"{GetHostName()}_{name}");
+                return LogManager.GetLogger($"{GetAppID()}_root");
+            return LogManager.GetLogger($"{GetAppID()}_{name}");
         }
 
-        public  String GetHostName()
+        public  String GetAppID()
         {
-            return "";
-        /*    try
-            {
-             Java.Lang.Reflect.Method getString = Android.OS.Build.get.getDeclaredMethod("getString", String.class);
-             getString.setAccessible(true);
-             return getString.invoke(null, "net.hostname").toString();
-          } catch (Exception ex) {
-        return defValue;
-       }*/
-         }
-     
-
+            return "it_will_app_id";
+        }
+  
         public  void Initialize()
         {
-            _root = ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root;
-            _root.Level = Level.All;
-        }
+			try
+			{
+				//LogManager.CreateRepository("p8");
+				_root = ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root;
+				_root.Level = Level.All;
+				/*_root = ((log4net.Repository.Hierarchy.Hierarchy)LogManager.CreateRepository())).Root;
+				_root.Level = Level.All;*/
+			}
+			catch (Exception ex)
+			{
 
-  
+			}
+        }
 
         public  void AddDefaultUdpLayout()
         {
@@ -139,7 +140,7 @@ namespace Log4netTest
                 var level = Level.All;
                 //var rollingFileAppenderLayout = new PatternLayout("%date{HH:mm:ss,fff}|T%2thread|%25.25logger|%5.5level| %message%newline");
                 //rollingFileAppenderLayout.ActivateOptions();
-                var layout = new XmlLayoutSchemaLog4j();
+                var layout = new P8XmlLayoutSchemaLog4j();
                 layout.ActivateOptions();
                 var rollingFileAppender = new RollingFileAppender();
                 rollingFileAppender.Name = "roller_appender";
@@ -180,7 +181,7 @@ namespace Log4netTest
            // remote_address = "192.168.1.33";
             var ip = IPAddress.Parse(remote_address);
             appender.RemoteAddress = ip;
-            var layout = new XmlLayoutSchemaLog4j();
+            var layout = new P8XmlLayoutSchemaLog4j();
             layout.ActivateOptions();
             appender.Layout = layout;
             appender.ActivateOptions();
@@ -202,7 +203,6 @@ namespace Log4netTest
             _root.Repository.Configured = true;
             Console_Logging = false;
         }
-
 
         private  IAppender GetConsoleAppender()
         {

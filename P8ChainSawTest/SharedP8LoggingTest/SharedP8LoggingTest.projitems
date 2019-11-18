@@ -26,5 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)mainpage.xaml.cs">
       <DependentUpon>mainpage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)P8LogMaster.cs" />
   </ItemGroup>
 </Project>

@@ -48,7 +48,7 @@ namespace log4net.Config
 	/// </example>
 	/// <author>Nicko Cadell</author>
 	/// <author>Gert Driesen</author>
-	public class Log4NetConfigurationSectionHandler : IConfigurationSectionHandler
+	public class Log4NetConfigurationSectionHandler //p8fix: IConfigurationSectionHandler
 	{
 		#region Public Instance Constructors
 

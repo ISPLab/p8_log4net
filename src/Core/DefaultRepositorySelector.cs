@@ -34,6 +34,7 @@ using System.Reflection;
 using log4net.Config;
 using log4net.Util;
 using log4net.Repository;
+using log4net.Repository.Hierarchy;
 
 namespace log4net.Core
 {
@@ -413,8 +414,8 @@ namespace log4net.Core
 						LogLog.Debug(declaringType, "Creating repository [" + repositoryName + "] using type [" + repositoryType + "]");
 
 						// Call the no arg constructor for the repositoryType
-						rep = (ILoggerRepository)Activator.CreateInstance(repositoryType);
-
+						//rep = (ILoggerRepository)Activator.CreateInstance(repositoryType);
+						rep = new Hierarchy();
 						// Set the name of the repository
 						rep.Name = repositoryName;
 

@@ -99,7 +99,6 @@ namespace Log4netTest
             byte[] fileData = null;
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-
                 try
                 {
                     int fileSize = (int)fs.Length;
